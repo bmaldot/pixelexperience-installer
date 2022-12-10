@@ -1,4 +1,3 @@
-#for Redmi Note 4/4x
 import os, time
 from colorama import Fore
 sys = os.name
