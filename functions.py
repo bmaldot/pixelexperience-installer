@@ -2,7 +2,7 @@ import os, time, devices
 from colorama import Fore
 from zipfile import ZipFile
 sys=os.name
-linpath='platform-tools/adb'
+linpath=os.getcwd()+'/platform-tools/adb'
 winpath='./platform-tools/adb.exe'
 ##functions necessary to make the script work
 
@@ -31,8 +31,12 @@ def clean():
                 if yesorno != options[0]:
                     pass
                 else:
-                    os.system('RD platform-tools\ /s ')
-                    pass
+                    if sys == 'posix':
+                        os.system('rm -r platform-tools/')
+                        pass
+                    else:
+                        os.system('RD platform-tools\ /s ')
+                        pass
             yesorno2=input('Do you want to remove zip flashables? (y/n) ')
             yesornocheck2=yesorno2 in options
             if len(yesorno2) == 0:
@@ -109,8 +113,10 @@ def installer():
             else:
                 print('installing adb and fastboot...')
                 os.system('wget https://dl.google.com/android/repository/platform-tools_r33.0.3-linux.zip -O extractme.zip')
+                #os.system(
                 with ZipFile('extractme.zip', 'r') as zip:
                     zip.extractall()
+                os.system(f'pkexec chmod +x {linpath}')
                 print('installed!')
                 return
         else:
